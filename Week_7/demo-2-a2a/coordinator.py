@@ -97,7 +97,7 @@ class A2ACoordinator:
 
         if analyzer:
             console.print("\n[cyan]→ Analyzer[/]  sending task …")
-            r = self.send_task(analyzer["endpoint"], message=target)
+            r = self.send_task(analyzer["endpoint"], message=target)    #send task means run a post request to an endpoint
             results["analysis"] = r["output"]
             console.print("[green]  ✓ Analysis complete[/]")
 

@@ -1,6 +1,0 @@
-from tasks.task_123 import *
-
-def test_mbpp_asserts():
-    assert amicable_numbers_sum(999)==504
-    assert amicable_numbers_sum(9999)==31626
-    assert amicable_numbers_sum(99)==0

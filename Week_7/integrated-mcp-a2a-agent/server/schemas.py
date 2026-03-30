@@ -47,7 +47,7 @@ TOOLS = [
         "inputSchema": {
             "type": "object",
             "properties": {
-                "issue_number": {"type": "int", "description": "identifier for the issue to read the contents of"},
+                "issue_number": {"type": "str", "description": "identifier for the issue to read the contents of"},
             },
             "required": ["issue_number"],
         },
@@ -102,10 +102,4 @@ TOOLS = [
             "required": ["base_SHA","head_SHA"],
         },
     },
-    
-
-
-
-
-
 ]

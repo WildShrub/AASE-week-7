@@ -15,7 +15,7 @@ MAX_FILE_CHARS = 8_000
 
 REPO_OWNER = "WildShrub"
 REPO_NAME = "literate-chainsaw"
-ACCESS_TOKEN = ""
+#put an access token here
 GITHUB_API_TIMEOUT = 30
 
 
@@ -38,18 +38,16 @@ def grep_code(pattern: str, path: str) -> str:
     return result.stdout.strip() or "No matches found."
 
 
-
-
 #------------------------------------------------------------------------------------------------------------
 
-def get_github_issue(issue_number: int) -> dict:
+
+def get_github_issue(issue_number: str) -> dict:
     url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/issues/{issue_number}"
     headers = {
         "Accept": "application/vnd.github.v3+json",
         "Authorization": f"{ACCESS_TOKEN}"
     }
     try:
-        
         response = requests.get(url=url,headers=headers)
         issue_data=response.json()
 
@@ -57,16 +55,12 @@ def get_github_issue(issue_number: int) -> dict:
             'title': issue_data['title'],
             'body': issue_data['body'],
         }
-
-
         print(str(issue_content))
         return issue_content
     except Exception as e:
         print("Error getting issue: {str(e)}")
         return {"status": "error", "message": str(e)}
 
-
-#------------------------------------------------------------------------------------------------------------
 
 def create_github_issue(title: str, body: str): #, labels: list[str]
     url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/issues"
@@ -94,6 +88,7 @@ def create_github_issue(title: str, body: str): #, labels: list[str]
         print(response)
         return {"status": "error", "message": str(e)}
 
+#------------------------------------------------------------------------------------------------------------
 
 def get_github_PR(pr_number: int) -> dict:
     url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/pulls/{pr_number}"
@@ -110,6 +105,8 @@ def get_github_PR(pr_number: int) -> dict:
             'title': pr_data['title'],
             'description': pr_data['body'],
             'author': pr_data['user']['login'],
+            'created_at': pr_data['created_at'],
+            'updated_at': pr_data['updated_at'],
             'state': pr_data['state']
         }
 
@@ -120,7 +117,6 @@ def get_github_PR(pr_number: int) -> dict:
     except Exception as e:
         print("Error fetching PR content")
         return {"status": "error", "message": str(e)}
-
 
 
 def create_github_PR(title: str, body: str, head: str, base: str, draft: bool) -> dict:
@@ -156,6 +152,8 @@ def create_github_PR(title: str, body: str, head: str, base: str, draft: bool) -
         return {"status": "error", "message": str(e)}
 
 
+#------------------------------------------------------------------------------------------------------------
+
 
 def git_diff(base_SHA: str, head_SHA: str) -> str:
     url = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/compare/{base_SHA}...{head_SHA}"
@@ -176,6 +174,7 @@ def git_diff(base_SHA: str, head_SHA: str) -> str:
         
 
 #------------------------------------------------------------------------------------------------------------
+
 
 def check_code():
     url = ''
